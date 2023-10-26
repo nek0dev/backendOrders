@@ -6,5 +6,5 @@ class Orders(BaseTable):
     id = Column(Integer, primary_key=True, autoincrement=True)
     dimensions = Column(ARRAY(Integer), nullable=False)
     weight = Column(Integer, nullable=False)
-    latitude = Column(Numeric(2, 6), nullable=False)
-    longitude = Column(Numeric(2, 6), nullable=False)
+    latitude = Column(Numeric(8, 6), nullable=False)
+    longitude = Column(Numeric(8, 6), nullable=False)
