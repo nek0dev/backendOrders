@@ -1,12 +1,12 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Numeric
 from .base import BaseTable
 from .order import Orders
-from .dron import Drons
+from .dron import Drones
 
 
 class State(BaseTable):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    serial_number = Column(String, ForeignKey(Drons.serial_number, ondelete="cascade"), nullable=False)
+    serial_number = Column(String, ForeignKey(Drones.serial_number, ondelete="cascade"), nullable=False)
     order_id = Column(Integer, ForeignKey(Orders.id))
     state = Column(String, nullable=False)
     latitude = Column(Numeric(8, 6), nullable=False)

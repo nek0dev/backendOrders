@@ -3,7 +3,7 @@ __all__ = (
     "DatabaseDriver",
     "db_driver",
     "Orders",
-    "Drons",
+    "Drones",
     "State",
     "Incidents"
 )
@@ -11,6 +11,6 @@ __all__ = (
 from .base import BaseTable
 from .db_driver import DatabaseDriver, db_driver
 from .order import Orders
-from .dron import Drons
+from .dron import Drones
 from .state import State
 from .incident import Incidents

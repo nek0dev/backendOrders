@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from .base import BaseTable
 
 
-class Drons(BaseTable):
+class Drones(BaseTable):
     serial_number = Column(String, primary_key=True)
     max_weight = Column(Numeric(4, 2), nullable=False)
     dimensions = Column(ARRAY(Integer), nullable=False)
