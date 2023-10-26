@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Numeric
 from .base import BaseTable
-from .dron import Drones
+from .drone import Drones
 
 
 class Incidents(BaseTable):

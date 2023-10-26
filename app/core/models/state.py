@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Numeric
 from .base import BaseTable
 from .order import Orders
-from .dron import Drones
+from .drone import Drones
 
 
 class State(BaseTable):
