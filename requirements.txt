@@ -1,9 +1,9 @@
 fastapi
 uvicorn
 sqlalchemy
-pydantic
+pydantic==2.1.1
 pydantic_settings
 yaweather
 python-dotenv
-pyowm
+pyjwt
 asyncpg
