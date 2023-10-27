@@ -2,7 +2,7 @@ from core.models import db_driver
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from core.models import Orders, State
-from .schemas import Order, DroneLink
+from .schemas import Order, DroneLink, DroneIdent
 from .controllers.weather import inspect_weather
 from fastapi import Response, status
 
@@ -32,6 +32,11 @@ async def delete_order(session: AsyncSession, order_to_delete: DroneLink):
     state.order_id = None
     await session.commit()
 
+    state = await session.execute(select(Orders).where(Orders.id == order_to_delete.order_id))
+    state = state.scalar()
+    await session.delete(state)
+    await session.commit()
+
     return Response(status_code=status.HTTP_200_OK)
 
 
@@ -50,7 +55,7 @@ async def push_to_dron_state(session: AsyncSession, order_to_push: DroneLink):
     
 
 async def get_all_orders(session: AsyncSession)->list[Orders]:
-    stmt = select(Orders).order_by(Orders.id)
+    stmt = select(Orders)
     result = await session.execute(stmt)
     products = result.scalars().all()
     return list(products)
