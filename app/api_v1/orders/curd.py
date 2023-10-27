@@ -28,6 +28,7 @@ async def delete_order(session: AsyncSession, order_to_delete: DroneLink):
     if not state:
         return Response(status_code=status.HTTP_418_IM_A_TEAPOT)
 
+    state.state = "in base"
     state.order_id = None
     await session.commit()
 
@@ -41,6 +42,7 @@ async def push_to_dron_state(session: AsyncSession, order_to_push: DroneLink):
     if not state:
         return Response(status_code=status.HTTP_418_IM_A_TEAPOT)
 
+    state.state = "in delivery"
     state.order_id = order_to_push.order_id
     await session.commit()
 
