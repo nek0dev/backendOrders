@@ -59,3 +59,9 @@ async def get_all_orders(session: AsyncSession)->list[Orders]:
     result = await session.execute(stmt)
     products = result.scalars().all()
     return list(products)
+
+
+async def get_order_by_id(order_id: str, session: AsyncSession)->Orders:
+    stmt = select(Orders).where(Orders.id == int(order_id))
+    result = await session.execute(stmt)
+    return result.scalar()

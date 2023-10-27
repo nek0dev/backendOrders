@@ -27,3 +27,7 @@ async def run_order(order_to_push: DroneLink, session: AsyncSession = Depends(db
 async def get_all_orders(session: AsyncSession = Depends(db_driver.get_scoped_session)):
     return await curd.get_all_orders(session=session)
 
+
+@router.get("/get/{order_id}", status_code=status.HTTP_200_OK)
+async def get_order_by_id(order_id: str, session: AsyncSession = Depends(db_driver.get_scoped_session)):
+    return await curd.get_order_by_id(order_id=order_id, session=session)
