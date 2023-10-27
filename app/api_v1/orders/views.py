@@ -29,5 +29,5 @@ async def get_all_orders(session: AsyncSession = Depends(db_driver.get_scoped_se
 
 
 @router.get("/get/{order_id}", status_code=status.HTTP_200_OK)
-async def get_order_by_id(order_id: str, session: AsyncSession = Depends(db_driver.get_scoped_session), token: JWTHeader = Depends(JWTBearer())):
+async def get_order_by_id(order_id: str, session: AsyncSession = Depends(db_driver.get_scoped_session)):
     return await curd.get_order_by_id(order_id=order_id, session=session)
