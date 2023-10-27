@@ -3,5 +3,7 @@ uvicorn
 sqlalchemy
 pydantic
 pydantic_settings
+yaweather
 python-dotenv
+pyowm
 asyncpg

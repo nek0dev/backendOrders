@@ -7,3 +7,9 @@ class Order(BaseModel):
     weight: int
     latitude: Decimal
     longitude: Decimal
+
+
+class DroneLink(BaseModel):
+    drone_serial: str
+    order_id: int
+
