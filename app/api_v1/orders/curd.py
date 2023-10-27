@@ -48,3 +48,9 @@ async def push_to_dron_state(session: AsyncSession, order_to_push: DroneLink):
 
     return Response(status_code=status.HTTP_200_OK)
     
+
+async def get_all_orders(session: AsyncSession)->list[Orders]:
+    stmt = select(Orders).order_by(Orders.id)
+    result = await session.execute(stmt)
+    products = result.scalars().all()
+    return list(products)
