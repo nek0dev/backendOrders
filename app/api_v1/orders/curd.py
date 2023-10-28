@@ -2,27 +2,28 @@ from core.models import db_driver
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from core.models import Orders, State
-from .schemas import Order, DroneLink, DroneIdent
+from .schemas import Order, DroneLink
 from .controllers.weather import inspect_weather
 from fastapi import Response, status
+import math
 
 
 async def create_order(session: AsyncSession, order_to_create: Order):
     order = Orders(**order_to_create.model_dump())
-    
+
     #block of conditional checks for starting travel
     weather = inspect_weather(latitude=str(order.latitude), longitude=str(order.longitude))
 
     if weather == False:
-        return Response(status_code=status.HTTP_406_NOT_ACCEPTABLE)
+        return Response(status_code=status.HTTP_418_IM_A_TEAPOT)
     
     session.add(order)
     await session.commit()
-    return order
+    return Response(status_code=status.HTTP_201_CREATED)
 
 
-async def delete_order(session: AsyncSession, order_to_delete: DroneLink):
-    state = await session.execute(select(State).where(State.serial_number == order_to_delete.drone_serial))
+async def delete_order(session: AsyncSession, order_to_delete: int):
+    state = await session.execute(select(State).where(State.order_id == order_to_delete))
     state = state.scalar()
 
     if not state:
@@ -32,7 +33,7 @@ async def delete_order(session: AsyncSession, order_to_delete: DroneLink):
     state.order_id = None
     await session.commit()
 
-    state = await session.execute(select(Orders).where(Orders.id == order_to_delete.order_id))
+    state = await session.execute(select(Orders).where(Orders.id == order_to_delete))
     state = state.scalar()
     await session.delete(state)
     await session.commit()
@@ -61,7 +62,11 @@ async def get_all_orders(session: AsyncSession)->list[Orders]:
     return list(products)
 
 
-async def get_order_by_id(order_id: str, session: AsyncSession)->Orders:
+async def get_order_by_id(order_id: str, session: AsyncSession):
     stmt = select(Orders).where(Orders.id == int(order_id))
-    result = await session.execute(stmt)
-    return result.scalar()
+    result = (await session.execute(stmt)).scalar()
+
+    if result == None:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
+
+    return result
