@@ -15,6 +15,8 @@ class DatabaseDriver:
         self.engine = create_async_engine(
             url=url,
             echo=echo,
+            pool_pre_ping=True,
+            pool_size=20
         )
         self.session_factory = async_sessionmaker(
             bind=self.engine,
